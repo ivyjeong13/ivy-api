@@ -7,4 +7,5 @@ Start of a small API Fastify server for some solo projects doing for fun. Will g
 - [ ] Seed database
 - [ ] Hook up Swagger OpenAPI
 - [ ] Add ViTest for unit testing
+- [ ] Add pre-request auth hook to restrict endpoint access. 
 - [ ] Create some endpoints!
