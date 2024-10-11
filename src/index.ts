@@ -42,7 +42,7 @@ fastify.get('/', (_request, reply) => {
   return reply.send('OK');
 });
 
-const port = typeof process.env.PORT === 'number' ? process.env.PORT : 3000;
+const port = process.env.PORT ? Number.parseInt(process.env.PORT) : 3000;
 fastify.listen({ port }, (err, address) => {
   if (err) {
     fastify.log.error(err);
