@@ -38,6 +38,10 @@ fastify.setErrorHandler((error, request, reply) => {
 
 fastify.register(import('./api'), { prefix: '/api' });
 
+fastify.get('/', (_request, reply) => {
+  return reply.send('OK');
+});
+
 const port = typeof process.env.PORT === 'number' ? process.env.PORT : 3000;
 fastify.listen({ port }, (err, address) => {
   if (err) {
