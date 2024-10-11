@@ -42,8 +42,7 @@ fastify.get('/', (_request, reply) => {
   return reply.send('OK');
 });
 
-const port = process.env.PORT ? Number.parseInt(process.env.PORT) : 3000;
-fastify.listen({ port }, (err, address) => {
+fastify.listen({ port: Number(process.env.PORT ?? 3000), host: '0.0.0.0' }, (err, address) => {
   if (err) {
     fastify.log.error(err);
     process.exit(1);
