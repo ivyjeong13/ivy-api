@@ -1,5 +1,8 @@
-import { FastifyPluginAsyncZod, ZodTypeProvider } from "fastify-type-provider-zod";
-import { z } from "zod";
+import {
+  FastifyPluginAsyncZod,
+  ZodTypeProvider,
+} from 'fastify-type-provider-zod';
+import { z } from 'zod';
 
 const test: FastifyPluginAsyncZod = async function (app, _opts) {
   app.withTypeProvider<ZodTypeProvider>().route({
