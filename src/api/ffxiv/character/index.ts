@@ -8,6 +8,13 @@ import { CharacterMounts } from '../../../modules/ffxiv/character-mounts';
 import { CharacterMinions } from '../../../modules/ffxiv/character-minions';
 
 const route: FastifyPluginAsyncZod = async function (app, _opts) {
+  /**
+   * This endpoint is to fetch a FFXIV character with information needed
+   * to display what mounts/minions they've successfully collected.
+   *
+   * @xivapi/nodestone did not have parsers for mount & minions.
+   * modules/ffxiv contains the scraper for mount / minion Lodestone pages.
+   */
   app.withTypeProvider<ZodTypeProvider>().route({
     method: 'GET',
     url: '/:characterId',
@@ -15,6 +22,7 @@ const route: FastifyPluginAsyncZod = async function (app, _opts) {
       params: z.object({
         characterId: z.coerce.number().int(),
       }),
+      // TODO: add successful response schema
       // response: {
       //   200: z.object({
       //     success: z.boolean(),
