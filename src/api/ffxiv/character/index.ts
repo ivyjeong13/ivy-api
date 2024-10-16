@@ -41,6 +41,8 @@ const CharacterResponseSchema = z.object({
   race: z.string(),
   rank: z.string().nullable(),
   starting_town: z.string(),
+  total_minions: z.number().int(),
+  total_mounts: z.number().int(),
   tribe: z.string(),
   world: z.string(),
 });
@@ -92,6 +94,16 @@ const route: FastifyPluginAsyncZod = async function (app, _opts) {
         true,
       )) as z.infer<typeof XivCharacterMinionResponse>;
 
+      const mounts = ownedMountsResponse.Mounts.List.map((mount) => ({
+        name: mount.Name,
+        image_url: mount.Icon,
+      }));
+
+      const minions = ownedMinionsResponse.Minions.List.map((minion) => ({
+        name: minion.Name,
+        image_url: minion.Icon,
+      }));
+
       const character = {
         active_class: characterResponse.ActiveClassjob,
         avatar_url: characterResponse.Avatar,
@@ -112,19 +124,11 @@ const route: FastifyPluginAsyncZod = async function (app, _opts) {
         race: characterResponse.Race,
         rank: characterResponse.Rank ?? null,
         starting_town: characterResponse.Town.Name,
+        total_minions: minions.length,
+        total_mounts: mounts.length,
         tribe: characterResponse.Tribe,
         world: characterResponse.World,
       };
-
-      const mounts = ownedMountsResponse.Mounts.List.map((mount) => ({
-        name: mount.Name,
-        image_url: mount.Icon,
-      }));
-
-      const minions = ownedMinionsResponse.Minions.List.map((minion) => ({
-        name: minion.Name,
-        image_url: minion.Icon,
-      }));
 
       return {
         ...character,
