@@ -42,6 +42,9 @@ fastify.setErrorHandler((error, request, reply) => {
   }
 });
 
+fastify.register(import('@fastify/cors'), {
+  origin: process.env.FRONTEND_URL,
+});
 fastify.register(import('@fastify/sensible'), { sharedSchemaId: 'HttpError' });
 fastify.register(import('./api'), { prefix: '/api' });
 
