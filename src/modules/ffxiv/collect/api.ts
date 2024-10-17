@@ -17,7 +17,7 @@ export const getCollectableMounts =
   async (): Promise<GetCollectableMountsResponse> => {
     const response = await axios.get(`${FFXIV_COLLECT_API_URL}/mounts`);
     return {
-      total: response.data?.total ?? 0,
+      total: response.data?.count ?? 0,
       results: response.data?.results ?? [],
     };
   };
@@ -26,7 +26,7 @@ export const getCollectableMinions =
   async (): Promise<GetCollectableMinionsResponse> => {
     const response = await axios.get(`${FFXIV_COLLECT_API_URL}/minions`);
     return {
-      total: response.data?.total ?? 0,
+      total: response.data?.count ?? 0,
       results: response.data?.results ?? [],
     };
   };
