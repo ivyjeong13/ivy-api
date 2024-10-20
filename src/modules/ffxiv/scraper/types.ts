@@ -1,5 +1,20 @@
 import { z } from 'zod';
 
+export const XivCharacterSearchResponse = z.object({
+  List: z.array(
+    z.object({
+      Avatar: z.string(),
+      ID: z.number().int(),
+      Lang: z.string(),
+      Name: z.string(),
+      RankName: z.string(),
+      RankIcon: z.string(),
+      World: z.string(),
+      DC: z.string(),
+    }),
+  ),
+});
+
 export const XivCharacterResponse = z.object({
   ActiveClassjob: z.string(),
   Level: z.number().int(),
