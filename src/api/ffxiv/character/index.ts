@@ -79,30 +79,56 @@ const route: FastifyPluginAsyncZod = async function (app, _opts) {
       const characterResponse = (await characterParser.parse({
         params: { characterId },
       } as any)) as z.infer<typeof XivCharacterResponse>;
-      const ownedMountsResponse = (await characterMountsParser.parse(
-        {
-          params: { characterId },
-        } as any,
-        undefined,
-        true,
-      )) as z.infer<typeof XivCharacterMountResponse>;
-      const ownedMinionsResponse = (await characterMinionsParser.parse(
-        {
-          params: { characterId },
-        } as any,
-        undefined,
-        true,
-      )) as z.infer<typeof XivCharacterMinionResponse>;
 
-      const mounts = ownedMountsResponse.Mounts.List.map((mount) => ({
-        name: mount.Name,
-        image_url: mount.Icon,
-      }));
+      let ownedMountsResponse:
+        | z.infer<typeof XivCharacterMountResponse>
+        | undefined;
+      try {
+        ownedMountsResponse = (await characterMountsParser.parse(
+          {
+            params: { characterId },
+          } as any,
+          undefined,
+          true,
+        )) as z.infer<typeof XivCharacterMountResponse>;
+      } catch (error) {
+        request.log.error(
+          `An error occurred during fetching of mounts.`,
+          error,
+        );
+      }
 
-      const minions = ownedMinionsResponse.Minions.List.map((minion) => ({
-        name: minion.Name,
-        image_url: minion.Icon,
-      }));
+      let ownedMinionsResponse:
+        | z.infer<typeof XivCharacterMinionResponse>
+        | undefined;
+      try {
+        ownedMinionsResponse = (await characterMinionsParser.parse(
+          {
+            params: { characterId },
+          } as any,
+          undefined,
+          true,
+        )) as z.infer<typeof XivCharacterMinionResponse>;
+      } catch (error) {
+        request.log.error(
+          `An error occurred during fetching of minions.`,
+          error,
+        );
+      }
+
+      const mounts = ownedMountsResponse
+        ? ownedMountsResponse.Mounts.List.map((mount) => ({
+            name: mount.Name,
+            image_url: mount.Icon,
+          }))
+        : [];
+
+      const minions = ownedMinionsResponse
+        ? ownedMinionsResponse.Minions.List.map((minion) => ({
+            name: minion.Name,
+            image_url: minion.Icon,
+          }))
+        : [];
 
       const character = {
         active_class: characterResponse.ActiveClassjob,
