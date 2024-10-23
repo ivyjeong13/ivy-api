@@ -36,5 +36,20 @@ export const XivCollectMinion = z.object({
   sources: z.array(XivSource),
 });
 
+export const XivCollectRelic = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  order: z.number().int(),
+  achievement_id: z.number().int().nullable(),
+  icon: z.string(),
+  type: z.object({
+    name: z.string(),
+    category: z.string(),
+    order: z.number().int(),
+    expansion: z.number().int(),
+  }),
+});
+
 export type XivCollectMountType = z.infer<typeof XivCollectMount>;
 export type XivCollectMinionType = z.infer<typeof XivCollectMinion>;
+export type XivCollectRelicType = z.infer<typeof XivCollectRelic>;

@@ -45,4 +45,11 @@ const route: FastifyPluginAsyncZod = async function (app, _opts) {
   });
 };
 
-export default route;
+const collectableRoutes: FastifyPluginAsyncZod = async function (app, _opts) {
+  await app.register(route);
+  await app.register(import('./minion'), { prefix: '/minion' });
+  await app.register(import('./mount'), { prefix: '/mount' });
+  await app.register(import('./relic'), { prefix: '/relic' });
+};
+
+export default collectableRoutes;

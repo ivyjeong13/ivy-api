@@ -13,6 +13,7 @@ import {
 } from '../../../modules/ffxiv/scraper';
 
 const CharacterResponseSchema = z.object({
+  id: z.number(),
   active_class: z.string(),
   current_title: z.string().nullable(),
   data_center: z.string(),
@@ -131,6 +132,7 @@ const route: FastifyPluginAsyncZod = async function (app, _opts) {
         : [];
 
       const character = {
+        id: characterId,
         active_class: characterResponse.ActiveClassjob,
         avatar_url: characterResponse.Avatar,
         current_title: characterResponse.Title ?? null,
